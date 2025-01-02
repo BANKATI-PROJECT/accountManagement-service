@@ -6,6 +6,9 @@ import ma.ensa.accountManagement_service.enums.Role;
 import ma.ensa.accountManagement_service.responce.AuthenticationResponse;
 import ma.ensa.accountManagement_service.services.authService.JwtService;
 import ma.ensa.accountManagement_service.util.RandomUtil;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -22,14 +25,17 @@ public class AdminService {
 
     private PasswordEncoder passwordEncoder;
     private JwtService jwtService;
-    private EmailService emailService;
     private CloudinaryService cloudinaryService;
     private AgentService agentService;
+    @Autowired
+    private KafkaTemplate<String, String> kafkaTemplate;
 
-    public AdminService(PasswordEncoder passwordEncoder, JwtService jwtService, EmailService emailService, CloudinaryService cloudinaryService, AgentService agentService) {
+    @Value("${topic.notification}")
+    private String notificationTopic;
+
+    public AdminService(PasswordEncoder passwordEncoder, JwtService jwtService, CloudinaryService cloudinaryService, AgentService agentService) {
         this.passwordEncoder = passwordEncoder;
         this.jwtService = jwtService;
-        this.emailService = emailService;
         this.cloudinaryService = cloudinaryService;
         this.agentService = agentService;
     }
@@ -94,16 +100,10 @@ public class AdminService {
 
         String token = jwtService.generateToken(agent);
 
-        // Envoyer un email avec les informations de connexion
-        String message = String.format(
-                "Bonjour %s %s !\n\nVotre compte a été créé avec succès. Voici vos identifiants de connexion :\n\n" +
-                        "Username : %s\nMot de passe : %s\n\nMerci de garder ces informations en sécurité.",
-                agent.getPrenom(),
-                agent.getNom(),
-                username,
-                password
-        );
-        emailService.sendEmail(agent.getEmail(), "Création de votre compte", message);
+        // Publier l'événement dans Kafka
+        String event = String.format("{ \"email\": \"%s\", \"username\": \"%s\", \"password\": \"%s\" }",
+                agent.getEmail(), username, password);
+        kafkaTemplate.send(notificationTopic, event);
 
         // Retourner la réponse
         return new AuthenticationResponse("Agent created successfully", token, agent.getRole().name());
