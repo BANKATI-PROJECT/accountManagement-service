@@ -30,7 +30,7 @@ public class AdminService {
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${topic.notification}")
+    @Value("${topic.credential}")
     private String notificationTopic;
 
     public AdminService(PasswordEncoder passwordEncoder, JwtService jwtService, CloudinaryService cloudinaryService, AgentService agentService) {

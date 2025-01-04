@@ -37,7 +37,7 @@ public class SecurityConfig {
         return http.csrf(AbstractHttpConfigurer::disable)
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 .authorizeHttpRequests(
-                        req-> req.requestMatchers("/auth/login","/h2-console/**","/auth/validate/**").permitAll()
+                        req-> req.requestMatchers("/auth/login","/h2-console/**","/auth/validate/**","/api/client/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
                                 .anyRequest().authenticated()
                 ).userDetailsService(userDetailsImpl)
