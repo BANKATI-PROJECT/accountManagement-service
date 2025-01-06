@@ -8,7 +8,6 @@ public class RandomUtil {
     private static final int USERNAME_LENGTH = 8;
     private static final int PASSWORD_LENGTH = 12;
 
-    private static final int SAETOKEN_LENGTH = 25;
     private static final Random RANDOM = new SecureRandom();
 
     public static String generateRandomUsername() {
@@ -19,9 +18,7 @@ public class RandomUtil {
         return generateRandomString(PASSWORD_LENGTH);
     }
 
-    public static String generateRandomSaveToken() {
-        return generateRandomString(SAETOKEN_LENGTH);
-    }
+
 
     private static String generateRandomString(int length) {
         StringBuilder sb = new StringBuilder(length);

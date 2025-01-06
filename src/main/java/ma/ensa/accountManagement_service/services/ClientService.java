@@ -47,4 +47,14 @@ public class ClientService {
     public Client getClientById(Long id) {
         return clientRepo.findById(id).get();
     }
+
+
+    //modifcation de save token:
+    public void updateSaveToken(Long id, String saveToken) {
+        Client client = clientRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client introuvable avec l'ID : " + id));
+
+        client.setSaveToken(saveToken);
+        clientRepo.save(client);
+    }
 }

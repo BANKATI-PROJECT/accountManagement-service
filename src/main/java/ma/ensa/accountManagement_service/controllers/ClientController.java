@@ -6,10 +6,7 @@ import ma.ensa.accountManagement_service.feign.PortefeuilleClientFeign;
 import ma.ensa.accountManagement_service.services.ClientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/client")
@@ -31,5 +28,10 @@ public class ClientController {
         } else {
             return ResponseEntity.notFound().build();
         }
+    }
+
+    @PutMapping("/{id}/saveToken")
+    public void updateClientSaveTokenById(@PathVariable Long id, @RequestBody String saveToken) {
+        clientService.updateSaveToken(id, saveToken);
     }
 }

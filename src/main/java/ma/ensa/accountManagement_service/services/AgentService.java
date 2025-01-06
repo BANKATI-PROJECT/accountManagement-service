@@ -46,7 +46,6 @@ public class AgentService {
     public AuthenticationResponse createClient(Long agentId, CreateClientRequest request) {
         String username = RandomUtil.generateRandomUsername();
         String password = RandomUtil.generateRandomPassword();
-        String saveToken= RandomUtil.generateRandomSaveToken();
 
         Optional<Client> existingAgent = clientService.findByAdresseEmail(request.getEmail());
         if (existingAgent.isPresent()) {
@@ -62,7 +61,6 @@ public class AgentService {
         client.setUsername(username);
         client.setPassword(passwordEncoder.encode(password));
         client.setRole(Role.CLIENT);
-        client.setSaveToken(saveToken);
 
         Optional<Agent> optionalAgent = findAgentByid(agentId);
         String token;
