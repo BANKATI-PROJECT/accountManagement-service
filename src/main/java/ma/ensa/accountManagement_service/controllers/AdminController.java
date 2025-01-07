@@ -1,5 +1,6 @@
 package ma.ensa.accountManagement_service.controllers;
 
+import ma.ensa.accountManagement_service.entities.Agent;
 import ma.ensa.accountManagement_service.responce.AuthenticationResponse;
 import ma.ensa.accountManagement_service.services.AdminService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 @RestController
+@CrossOrigin("*")
 @RequestMapping("/api/admin")
 public class AdminController {
     @Autowired
@@ -33,7 +35,11 @@ public class AdminController {
    }
 
 
-
+    @GetMapping("/listAgents")
+    public ResponseEntity<List<Agent>> listAgents() {
+        List<Agent> agents = adminService.findAll();
+        return ResponseEntity.ok(agents);
+    }
 
 
 }

@@ -108,5 +108,9 @@ public class AdminService {
         // Retourner la réponse
         return new AuthenticationResponse("Agent created successfully", token, agent.getRole().name());
     }
+
+    public List<Agent> findAll() {
+        return agentService.getAll();
+    }
 }
 

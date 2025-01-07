@@ -14,6 +14,7 @@ import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -81,5 +82,9 @@ public class AgentService {
 
     public Optional<Agent> findByAdresseEmail(String email) {
         return agentRepo.findAgentByEmail(email);
+    }
+
+    public List<Agent> getAll(){
+        return agentRepo.findAll();
     }
 }
