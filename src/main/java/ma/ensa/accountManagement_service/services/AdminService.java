@@ -63,6 +63,7 @@ public class AdminService {
         // Générer un username et un mot de passe
         String username = RandomUtil.generateRandomUsername();
         String password = RandomUtil.generateRandomPassword();
+        System.out.println("password_agent : "+password);
 
         // Créer l'agent
         Agent agent = new Agent();

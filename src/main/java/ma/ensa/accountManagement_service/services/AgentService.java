@@ -47,6 +47,7 @@ public class AgentService {
     public AuthenticationResponse createClient(Long agentId, CreateClientRequest request) {
         String username = RandomUtil.generateRandomUsername();
         String password = RandomUtil.generateRandomPassword();
+        System.out.println("password_client : "+password);
 
         Optional<Client> existingAgent = clientService.findByAdresseEmail(request.getEmail());
         if (existingAgent.isPresent()) {
