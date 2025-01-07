@@ -44,6 +44,7 @@ public class SecurityConfig {
                     corsConfig.setAllowCredentials(false);
                     return corsConfig;
                 }))
+                .headers(headers -> headers.frameOptions().sameOrigin())
                 .authorizeHttpRequests(
                         req-> req.requestMatchers("/auth/login","/h2-console/**","/auth/validate/**","/api/client/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
