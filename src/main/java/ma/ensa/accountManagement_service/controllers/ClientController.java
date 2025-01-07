@@ -30,6 +30,16 @@ public class ClientController {
         }
     }
 
+    @GetMapping("/getSaveToken/{id}")
+    public ResponseEntity<String> getSavetokenByClientId(@PathVariable Long id) {
+        Client client = clientService.getClientById(id);
+        if (client != null) {
+            return ResponseEntity.ok(client.getSaveToken());
+        } else {
+            return ResponseEntity.notFound().build();
+        }
+    }
+
     @PutMapping("/{id}/saveToken")
     public void updateClientSaveTokenById(@PathVariable Long id, @RequestBody String saveToken) {
         clientService.updateSaveToken(id, saveToken);
