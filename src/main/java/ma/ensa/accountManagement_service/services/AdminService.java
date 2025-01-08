@@ -107,7 +107,8 @@ public class AdminService {
         kafkaTemplate.send(notificationTopic, event);
 
         // Retourner la réponse
-        return new AuthenticationResponse("Agent created successfully", token, agent.getRole().name());
+        return new AuthenticationResponse("Agent created successfully", token, agent.getRole().name(),agent.getId(),
+                agent.getNom(),agent.getPrenom(),agent.getUsername());
     }
 
     public List<Agent> findAll() {

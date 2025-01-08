@@ -14,7 +14,6 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @SpringBootApplication
-@EnableDiscoveryClient
 @EnableFeignClients
 public class AccountManagementServiceApplication {
 

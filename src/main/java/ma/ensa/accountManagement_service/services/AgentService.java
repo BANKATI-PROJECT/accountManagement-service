@@ -78,7 +78,8 @@ public class AgentService {
             throw new RuntimeException("Agence introuvable avec l'ID : " + agentId);
         }
 
-        return new AuthenticationResponse("Client Created successfully ",token,client.getRole().name());
+        return new AuthenticationResponse("Client Created successfully ",token,client.getRole().name(),client.getId(),
+                client.getNom(),client.getPrenom(),client.getUsername());
     }
 
     public Optional<Agent> findByAdresseEmail(String email) {

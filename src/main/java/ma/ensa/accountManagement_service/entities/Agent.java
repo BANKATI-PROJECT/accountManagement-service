@@ -1,9 +1,6 @@
 package ma.ensa.accountManagement_service.entities;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.Entity;
-import jakarta.persistence.FetchType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.*;
 
 
 import java.time.LocalDate;
@@ -19,6 +16,11 @@ public class Agent extends UserApp {
     private String numPattente;
 
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinTable(
+            name = "agent_pieces_jointes",
+            joinColumns = @JoinColumn(name = "agent_id"),
+            inverseJoinColumns = @JoinColumn(name = "pieces_jointes_id")
+    )
     private List<PieceJoint> piecesJointes;
 
     public void setNumCIN(String numCIN) {

@@ -8,6 +8,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @CrossOrigin("*")
 @RequestMapping("/api/client")
@@ -44,5 +46,10 @@ public class ClientController {
     @PutMapping("/{id}/saveToken")
     public void updateClientSaveTokenById(@PathVariable Long id, @RequestBody String saveToken) {
         clientService.updateSaveToken(id, saveToken);
+    }
+
+    @GetMapping(path = "/getAllClients")
+    public List<Client> allClient(){
+        return clientService.getAllCliient();
     }
 }
