@@ -35,16 +35,16 @@ public class SecurityConfig {
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                // .cors(cors -> cors.configurationSource(request -> {
-                //     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                //     corsConfig.setAllowedOrigins(List.of("*")); // Replace with your frontend's origin
-                //     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                //     corsConfig.setAllowedHeaders(List.of("*"));
-                //     corsConfig.setExposedHeaders(List.of("Authorization"));
-                //     corsConfig.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
-                //     return corsConfig;
-                // }))
-                // .headers(headers -> headers.frameOptions().sameOrigin())
+                .cors(cors -> cors.configurationSource(request -> {
+                    var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                    corsConfig.setAllowedOrigins(List.of("*")); // Replace with your frontend's origin
+                    corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                    corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setExposedHeaders(List.of("Authorization"));
+                    corsConfig.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
+                    return corsConfig;
+                }))
+                .headers(headers -> headers.frameOptions().sameOrigin())
                 .authorizeHttpRequests(
                         req -> req.requestMatchers("/auth/login","/auth/login/**", "/auth/validate/**", "/api/client/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
