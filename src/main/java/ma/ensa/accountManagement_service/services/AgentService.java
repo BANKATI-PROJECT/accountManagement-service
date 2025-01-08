@@ -13,7 +13,7 @@ import ma.ensa.accountManagement_service.services.authService.JwtService;
 import ma.ensa.accountManagement_service.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
+// import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -29,8 +29,8 @@ public class AgentService {
     private JwtService jwtService;
     @Autowired
     private PortefeuilleClientFeign portefeuilleClientFeign;
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
+    // @Autowired
+    // private KafkaTemplate<String, String> kafkaTemplate;
 
     @Value("${topic.credential}")
     private String notificationTopic;
@@ -87,7 +87,7 @@ public class AgentService {
             // Publier l'événement dans Kafka
             String event = String.format("{ \"email\": \"%s\", \"username\": \"%s\", \"password\": \"%s\" }",
                     client.getEmail(), username, password);
-            kafkaTemplate.send(notificationTopic, event);
+            // kafkaTemplate.send(notificationTopic, event);
 
         } else {
             throw new RuntimeException("Agence introuvable avec l'ID : " + agentId);

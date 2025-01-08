@@ -8,7 +8,7 @@ import ma.ensa.accountManagement_service.services.authService.JwtService;
 import ma.ensa.accountManagement_service.util.RandomUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.kafka.core.KafkaTemplate;
+// import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -27,9 +27,9 @@ public class AdminService {
     private JwtService jwtService;
     private CloudinaryService cloudinaryService;
     private AgentService agentService;
-    @Autowired
-    private KafkaTemplate<String, String> kafkaTemplate;
-
+    // @Autowired
+    // private KafkaTemplate<String, String> kafkaTemplate;
+// 
     @Value("${topic.credential}")
     private String notificationTopic;
 
@@ -104,7 +104,7 @@ public class AdminService {
         // Publier l'événement dans Kafka
         String event = String.format("{ \"email\": \"%s\", \"username\": \"%s\", \"password\": \"%s\" }",
                 agent.getEmail(), username, password);
-        kafkaTemplate.send(notificationTopic, event);
+        // kafkaTemplate.send(notificationTopic, event);
 
         // Retourner la réponse
         return new AuthenticationResponse("Agent created successfully", token, agent.getRole().name(),agent.getId(),
