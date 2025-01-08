@@ -45,11 +45,12 @@ public class SecurityConfig {
                     return corsConfig;
                 }))
                 .headers(headers -> headers.frameOptions().sameOrigin())
-                .authorizeHttpRequests(
-                        req -> req.requestMatchers("/auth/login","/auth/login/**", "/auth/validate/**", "/api/client/**").permitAll()
-                                .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
-                                .anyRequest().authenticated()
-                )
+                .authorizeHttpRequests(req -> req
+    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
+    .requestMatchers("/auth/login", "/auth/login/**", "/auth/validate/**", "/api/client/**").permitAll()
+    .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
+    .anyRequest().authenticated()
+)
                 .userDetailsService(userDetailsImpl)
                 .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
                 .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
