@@ -33,29 +33,31 @@ public class SecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain securityFilterChain(HttpSecurity http)throws Exception{
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         return http.csrf(AbstractHttpConfigurer::disable)
-                .cors(cors -> cors.configurationSource(request -> {
-                    var corsConfig = new org.springframework.web.cors.CorsConfiguration();
-                    corsConfig.setAllowedOrigins(List.of("*"));
-                    corsConfig.setAllowedMethods(List.of("*"));
-                    corsConfig.setAllowedHeaders(List.of("*"));
-                    corsConfig.setExposedHeaders(List.of("*"));
-                    corsConfig.setAllowCredentials(false);
-                    return corsConfig;
-                }))
-                .headers(headers -> headers.frameOptions().sameOrigin())
+                // .cors(cors -> cors.configurationSource(request -> {
+                //     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
+                //     corsConfig.setAllowedOrigins(List.of("*")); // Replace with your frontend's origin
+                //     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
+                //     corsConfig.setAllowedHeaders(List.of("*"));
+                //     corsConfig.setExposedHeaders(List.of("Authorization"));
+                //     corsConfig.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
+                //     return corsConfig;
+                // }))
+                // .headers(headers -> headers.frameOptions().sameOrigin())
                 .authorizeHttpRequests(
-                        req-> req.requestMatchers("/auth/login","/h2-console/**","/auth/validate/**","/api/client/**").permitAll()
+                        req -> req.requestMatchers("/auth/login","/auth/login/**", "/auth/validate/**", "/api/client/**").permitAll()
                                 .requestMatchers("/api/admin/**").hasAnyAuthority("ADMIN")
                                 .anyRequest().authenticated()
-                ).userDetailsService(userDetailsImpl)
-                .sessionManagement(session->session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
-                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class).build();
+                )
+                .userDetailsService(userDetailsImpl)
+                .sessionManagement(session -> session.sessionCreationPolicy(SessionCreationPolicy.STATELESS))
+                .addFilterBefore(jwtAuthenticationFilter, UsernamePasswordAuthenticationFilter.class)
+                .build();
     }
 
     @Bean
-    public PasswordEncoder passwordEncoder(){
+    public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
@@ -63,5 +65,4 @@ public class SecurityConfig {
     public AuthenticationManager authenticationManager(AuthenticationConfiguration configuration) throws Exception {
         return configuration.getAuthenticationManager();
     }
-
 }
