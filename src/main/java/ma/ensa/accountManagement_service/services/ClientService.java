@@ -2,6 +2,7 @@ package ma.ensa.accountManagement_service.services;
 
 import ma.ensa.accountManagement_service.entities.Client;
 import ma.ensa.accountManagement_service.repositories.ClientRepo;
+import ma.ensa.accountManagement_service.requests.CreatePortfeuilleRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -29,6 +30,8 @@ public class ClientService {
             client.setPassword(passwordEncoder.encode(nouveauPassword));
             client.setUsername(username);
             clientRepo.save(client);
+
+
             return client;
         }else {
             throw new RuntimeException("client introuvable avec l'ID : " + clientId);
