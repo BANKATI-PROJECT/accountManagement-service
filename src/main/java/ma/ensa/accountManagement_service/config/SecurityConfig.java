@@ -46,7 +46,6 @@ public class SecurityConfig {
                 }))
                 .headers(headers -> headers.frameOptions().sameOrigin())
                 .authorizeHttpRequests(req -> req
-    .requestMatchers(HttpMethod.OPTIONS, "/**").permitAll() // Allow preflight requests
     .requestMatchers("/auth/login", "/auth/login/**", "/auth/validate/**", "/api/client/**").permitAll()
     .requestMatchers("/api/admin/**").hasAuthority("ADMIN")
     .anyRequest().authenticated()
