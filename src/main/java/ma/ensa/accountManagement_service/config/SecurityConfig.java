@@ -39,7 +39,7 @@ public class SecurityConfig {
                     var corsConfig = new org.springframework.web.cors.CorsConfiguration();
                     corsConfig.setAllowedOrigins(List.of("https://front-bankati-v5-production.up.railway.app", "https://gateway-service-production-a137.up.railway.app"));
                     corsConfig.setAllowedMethods(List.of("GET", "POST", "PUT", "DELETE", "OPTIONS"));
-                    corsConfig.setAllowedHeaders(List.of("*"));
+                    corsConfig.setAllowedHeaders(List.of("Authorization", "Content-Type"));
                     corsConfig.setExposedHeaders(List.of("Authorization"));
                     corsConfig.setAllowCredentials(true); // Allow credentials (cookies, authorization headers)
                     return corsConfig;
