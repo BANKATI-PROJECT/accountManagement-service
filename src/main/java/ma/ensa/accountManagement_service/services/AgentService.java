@@ -4,7 +4,10 @@ import ma.ensa.accountManagement_service.dto.CreateClientRequest;
 import ma.ensa.accountManagement_service.entities.Agent;
 import ma.ensa.accountManagement_service.entities.Client;
 import ma.ensa.accountManagement_service.enums.Role;
+import ma.ensa.accountManagement_service.feign.PortefeuilleClientFeign;
+import ma.ensa.accountManagement_service.model.Portefeuille;
 import ma.ensa.accountManagement_service.repositories.AgentRepo;
+import ma.ensa.accountManagement_service.requests.CreatePortfeuilleRequest;
 import ma.ensa.accountManagement_service.responce.AuthenticationResponse;
 import ma.ensa.accountManagement_service.services.authService.JwtService;
 import ma.ensa.accountManagement_service.util.RandomUtil;
@@ -24,6 +27,8 @@ public class AgentService {
     private ClientService clientService;
     private PasswordEncoder passwordEncoder;
     private JwtService jwtService;
+    @Autowired
+    private PortefeuilleClientFeign portefeuilleClientFeign;
     @Autowired
     private KafkaTemplate<String, String> kafkaTemplate;
 
@@ -67,6 +72,16 @@ public class AgentService {
         Optional<Agent> optionalAgent = findAgentByid(agentId);
         String token;
         if (optionalAgent.isPresent()) {
+            client = clientService.save(client);
+
+            //creation de portefeuille :
+            CreatePortfeuilleRequest createPortfeuilleRequest=new CreatePortfeuilleRequest();
+            createPortfeuilleRequest.setClientId(client.getId());
+            createPortfeuilleRequest.setCurrency("MAD");
+            createPortfeuilleRequest.setPlafond(client.getPlafond().toString());
+            Portefeuille portefeuille=new Portefeuille();
+            portefeuille=portefeuilleClientFeign.createPostefeuille(createPortfeuilleRequest);
+            client.setPortefeuille(portefeuille);
             client = clientService.save(client);
             token = jwtService.generateToken(client);
             // Publier l'événement dans Kafka
