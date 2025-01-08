@@ -32,8 +32,8 @@ public class AgentService {
     // @Autowired
     // private KafkaTemplate<String, String> kafkaTemplate;
 
-    @Value("${topic.credential}")
-    private String notificationTopic;
+    // @Value("${topic.credential}")
+    // private String notificationTopic;
 
     public AgentService(AgentRepo agentRepo, ClientService clientService, PasswordEncoder passwordEncoder, JwtService jwtService) {
         this.agentRepo = agentRepo;

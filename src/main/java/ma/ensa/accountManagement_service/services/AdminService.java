@@ -30,8 +30,8 @@ public class AdminService {
     // @Autowired
     // private KafkaTemplate<String, String> kafkaTemplate;
 // 
-    @Value("${topic.credential}")
-    private String notificationTopic;
+    // @Value("${topic.credential}")
+    // private String notificationTopic;
 
     public AdminService(PasswordEncoder passwordEncoder, JwtService jwtService, CloudinaryService cloudinaryService, AgentService agentService) {
         this.passwordEncoder = passwordEncoder;
