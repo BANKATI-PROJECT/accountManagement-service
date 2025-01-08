@@ -5,7 +5,7 @@ import ma.ensa.accountManagement_service.requests.CreatePortfeuilleRequest;
 import org.springframework.cloud.openfeign.FeignClient;
 import org.springframework.web.bind.annotation.*;
 
-@FeignClient(name = "portefeuille-service",url = "http://localhost:8090")
+@FeignClient(name = "portefeuille-service")
 public interface PortefeuilleClientFeign {
 
     @GetMapping("/api/portefeuilles/getByClientId/{clientId}")
