@@ -15,7 +15,7 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@CrossOrigin("https://front-bankati-v5-production.up.railway.app")
+@CrossOrigin("*")
 @RequestMapping(path = "/auth")
 public class AuthController {
 
